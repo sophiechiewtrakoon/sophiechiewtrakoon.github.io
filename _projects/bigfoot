@@ -1,0 +1,23 @@
+import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = pd.read_csv('https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/bfro_reports_fall2022.csv
+')
+source.rename(columns={"location_details":"Location Details"}, inplace=True)
+
+
+chart = alt.Chart(source).mark_circle(size=60).encode(
+    x='latitude',
+    y='longitude',
+    color='Origin',
+    tooltip=['Name', 'Origin', 'asdf', 'DJDJ']
+).interactive()
+
+custom_js:
+  - vega.min
+  - vega-lite.min
+  - vega-embed.min
+  - justcharts
+  
+
