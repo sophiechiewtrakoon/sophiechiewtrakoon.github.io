@@ -13,11 +13,3 @@ chart = alt.Chart(source).mark_circle(size=60).encode(
     color='Origin',
     tooltip=['Name', 'Origin', 'asdf', 'DJDJ']
 ).interactive()
-
-custom_js:
-  - vega.min
-  - vega-lite.min
-  - vega-embed.min
-  - justcharts
-  
-
