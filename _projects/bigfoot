@@ -1,15 +1,95 @@
-import altair as alt
+## basic plots with altair from lab 7.1
 import pandas as pd
-from vega_datasets import data
+import altair as alt
 
-source = pd.read_csv('https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/bfro_reports_fall2022.csv
-')
-source.rename(columns={"location_details":"Location Details"}, inplace=True)
+df = pd.read_csv('https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/bfro_reports_fall2022.csv')
 
-
-chart = alt.Chart(source).mark_circle(size=60).encode(
-    x='latitude',
-    y='longitude',
-    color='Origin',
-    tooltip=['Name', 'Origin', 'asdf', 'DJDJ']
+chart = alt.Chart(df).mark_circle().encode(
+    x='longitude:Q',
+    y='latitude:Q',
+    color='classification:N',
+    tooltip=['state', 'season', 'classification']
 ).interactive()
+
+# chart.properties(width='container').save("bigfoot.json")
+
+
+chart.save("bfro-visualization.html")
+
+
+# chart_dict = chart.to_dict()
+
+# with open("assets/json/bfro_altair_plot.json", "w") as f:
+
+#     json.dump(chart_dict, f)
+
+
+# from vega_datasets import data
+
+# plot_example = alt.Chart(data.cars.url).mark_point().encode(
+#     x='Horsepower:Q',
+
+#     y='Miles_per_Gallon:Q',
+#     color='Origin:N',
+# )
+
+# plot_example.to_dict()
+
+## complex plots with Altair from lab 7.2
+# import altair as alt
+# import pandas as pd
+
+# df_corg = pd.read_csv('data/corgis_per_country.csv')
+# df_corg['Years'] = pd.to_datetime(df_corg['Years'].astype('int'), format='%Y')
+# df_corg_melt = df_corg.melt('Years', var_name="Country", value_name='Births')
+
+## MULTILINE CHART
+
+# chart1 = alt.Chart(df_corg_melt).mark_line().encode(
+#     x=alt.X('Years:T'),
+#     y=alt.Y('Births:Q', scale=alt.Scale(type='symlog')),
+#     color=alt.Color('Country:O')
+# )
+
+# chart1
+
+## MULTILINE CHART WITH INTERACTIVITY
+
+# country_selection = alt.selection_point(
+#     fields=['Country'],
+#     bind=alt.binding_select(
+#         options=df_corg_melt['Country'].unique().tolist(),
+#         name='Country: '
+#     ),
+#     value='United States'
+# )
+
+# chart2 = alt.Chart(df_corg_melt).mark_line().encode(
+#     x=alt.X('Years:T'),
+#     y=alt.Y('Births:Q', scale=alt.Scale(type='symlog')),
+
+#     color=alt.Color('Country:O', scale=alt.Scale(scheme='sinebow')),
+    
+#     size=alt.condition(
+#         country_selection,
+#         alt.value(5),     
+#         alt.value(1)       
+#     ),
+
+#     tooltip=['Years:T', 'Country:O', 'Births:Q']
+# ).add_params(country_selection)
+
+# chart2
+
+## then reading in all data
+
+# source = pd.read_csv('https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/bfro_reports_fall2022.csv')
+# source.rename(columns={"location_details":"Location Details"}, inplace=True)
+
+# chart = alt.Chart(source).mark_circle(size=60).encode(
+#     x='latitude',
+#     y='longitude',
+#     color='Origin',
+#     tooltip=['Name', 'Origin', 'asdf', 'DJDJ']
+# ).interactive()
+
